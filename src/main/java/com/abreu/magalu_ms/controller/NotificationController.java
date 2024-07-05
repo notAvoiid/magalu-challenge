@@ -30,4 +30,10 @@ public class NotificationController {
         if (notification.isEmpty()) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(notification.get());
     }
+
+    @DeleteMapping("/{notificationId}")
+    public ResponseEntity<Void> cancelNotification(@PathVariable Long notificationId) {
+        notificationService.cancelNotification(notificationId);
+        return ResponseEntity.noContent().build();
+    }
 }
