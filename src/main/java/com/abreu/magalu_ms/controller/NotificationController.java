@@ -1,12 +1,10 @@
 package com.abreu.magalu_ms.controller;
 
+import com.abreu.magalu_ms.models.Notification;
 import com.abreu.magalu_ms.models.dto.ScheduleNotificationDTO;
 import com.abreu.magalu_ms.service.NotificationService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/notifications")
@@ -23,5 +21,13 @@ public class NotificationController {
         notificationService.scheduleNotification(dto);
 
         return ResponseEntity.accepted().build();
+    }
+
+    @GetMapping("/{notificationId}")
+    public ResponseEntity<Notification> getNotification(@PathVariable Long notificationId) {
+        var notification = notificationService.findById(notificationId);
+
+        if (notification.isEmpty()) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(notification.get());
     }
 }
